@@ -1,0 +1,43 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>Hello, World</title>  
+<style type="text/css">  
+html{height:100%}  
+body{height:100%;margin:0px;padding:0px}  
+#container{height:100%}  
+</style>  
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mApcAtRu5KGswrDUxniCSQEMD4tUoasX">
+//v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+//v1.4版本及以前版本的引用方式：src="http://api.map.baidu.com/api?v=1.4&key=您的密钥&callback=initialize"
+</script>
+</head>  
+ 
+<body>  
+<div id="container"></div> 
+<script type="text/javascript"> 
+	window.onload = function () {
+		if ("geolocation" in navigator) {
+		  	navigator.geolocation.getCurrentPosition(function(position) {
+		  		var lat = position.coords.latitude;
+		  		var lon = position.coords.longitude;
+			  	// alert(lat+"    "+lon);
+			  	var map = new BMap.Map("container");
+			  	var point = new BMap.Point(lon,lat);
+			  	map.centerAndZoom(point,15);
+			  	map.enableScrollWheelZoom();
+			  	var gc = new BMap.Geocoder();
+			  	gc.getLocation(point,function (rs) {
+			  		var addComp = rs.addressComponents;
+			  		alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street);
+			  	});
+			});/* 地理位置服务可用 */
+		} else {
+		  	alert('您的浏览器不支持地理定位！');/* 地理位置服务不可用 */
+		}
+	}
+</script>  
+</body>  
+</html>
