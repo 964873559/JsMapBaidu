@@ -19,19 +19,37 @@ body{height:100%;margin:0px;padding:0px}
 <div id="container"></div> 
 <script type="text/javascript"> 
 	window.onload = function () {
+		//H5的获取地理位置API
 		if ("geolocation" in navigator) {
 		  	navigator.geolocation.getCurrentPosition(function(position) {
+		  		//获取当前的经度和纬度
 		  		var lat = position.coords.latitude;
 		  		var lon = position.coords.longitude;
 			  	// alert(lat+"    "+lon);
+			  	//创建地图实例
 			  	var map = new BMap.Map("container");
+			  	//获取地图的中心
 			  	var point = new BMap.Point(lon,lat);
+			  	//初始化地图中心和地图级别
 			  	map.centerAndZoom(point,15);
+			  	//设置地图能够通过滚轮修改比例
 			  	map.enableScrollWheelZoom();
+			  	//添加左上角地图平移的控件
+			  	map.addControl(new BMap.NavigationControl());    
+			  	//添加地图左上角比例尺控件
+				map.addControl(new BMap.ScaleControl());    
+				//添加地图右下角缩略地图控件
+				map.addControl(new BMap.OverviewMapControl());    
+				//添加地图右上角地图类型
+				map.addControl(new BMap.MapTypeControl());   
+				// 获取地图的地理编码
 			  	var gc = new BMap.Geocoder();
+			  	//获取当前位置具体省市街道
 			  	gc.getLocation(point,function (rs) {
 			  		var addComp = rs.addressComponents;
-			  		alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street);
+			  		// alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street);
+			  		// 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+			  		map.setCurrentCity(addComp.city); 
 			  	});
 			});/* 地理位置服务可用 */
 		} else {
