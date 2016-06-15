@@ -32,8 +32,14 @@ body{height:100%;margin:0px;padding:0px}
 			  	var point = new BMap.Point(lon,lat);
 			  	//初始化地图中心和地图级别
 			  	map.centerAndZoom(point,15);
+			  	//修改当前位置标注样式
+			  	var myIcon = new BMap.Icon("marker.png", new BMap.Size(25, 25));
+			  	// var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {  
+      //                   offset: new BMap.Size(10, 25), // 指定定位位置  
+      //                   imageOffset: new BMap.Size(0, 0 - 10 * 25) // 设置图片偏移  
+      //               });  
 			  	//标出当前位置
-			  	var marker = new BMap.Marker(point);
+			  	var marker = new BMap.Marker(point,{icon:myIcon});
 			  	map.addOverlay(marker);
 				var infoWindow = new BMap.InfoWindow("您的位置在这里");
 				marker.openInfoWindow(infoWindow,map.getCenter());
